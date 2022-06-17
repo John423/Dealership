@@ -1,0 +1,42 @@
+﻿@model Dealership2.Models.SalesDept
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>SalesDept</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CustomerID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CustomerID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Condition)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Condition)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.SalesDID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,462 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="DealerShipDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Customers">
+          <Key>
+            <PropertyRef Name="CustomerID" />
+          </Key>
+          <Property Name="CustomerID" Type="int" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="LastName" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Gender" Type="char" MaxLength="2" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="Address" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="InventoryD">
+          <Key>
+            <PropertyRef Name="InventoryDID" />
+          </Key>
+          <Property Name="InventoryDID" Type="int" Nullable="false" />
+          <Property Name="Title" Type="char" MaxLength="20" Nullable="false" />
+          <Property Name="AdminID" Type="int" />
+        </EntityType>
+        <EntityType Name="SalesDept">
+          <Key>
+            <PropertyRef Name="SalesDID" />
+          </Key>
+          <Property Name="SalesDID" Type="int" Nullable="false" />
+          <Property Name="Title" Type="char" MaxLength="20" Nullable="false" />
+          <Property Name="CustomerID" Type="int" Nullable="false" />
+          <Property Name="Condition" Type="nchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Service">
+          <Key>
+            <PropertyRef Name="ServiceID" />
+          </Key>
+          <Property Name="ServiceID" Type="int" Nullable="false" />
+          <Property Name="ServiceType" Type="char" MaxLength="50" Nullable="false" />
+          <Property Name="Price" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="VehicleID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SystemAdmin">
+          <Key>
+            <PropertyRef Name="AdminID" />
+          </Key>
+          <Property Name="AdminID" Type="int" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="LastName" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Address" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="15" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Transaction">
+          <Key>
+            <PropertyRef Name="TransactionID" />
+          </Key>
+          <Property Name="TransactionID" Type="int" Nullable="false" />
+          <Property Name="AccountNumber" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="BankName" Type="nchar" MaxLength="40" Nullable="false" />
+          <Property Name="DateOfTransaction" Type="date" Nullable="false" />
+          <Property Name="CustomerID" Type="int" Nullable="false" />
+          <Property Name="VehicleID" Type="int" Nullable="false" />
+          <Property Name="ServiceID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Vehicles">
+          <Key>
+            <PropertyRef Name="VehicleID" />
+          </Key>
+          <Property Name="VehicleID" Type="int" Nullable="false" />
+          <Property Name="Make" Type="char" MaxLength="20" Nullable="false" />
+          <Property Name="Model" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Year" Type="int" Nullable="false" />
+          <Property Name="Color" Type="char" MaxLength="10" Nullable="false" />
+          <Property Name="Type" Type="char" MaxLength="10" Nullable="false" />
+          <Property Name="Price" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="CustomerID" Type="int" />
+          <Property Name="SalesDID" Type="int" />
+        </EntityType>
+        <Association Name="FK_CustomerID">
+          <End Role="Customers" Type="Self.Customers" Multiplicity="0..1" />
+          <End Role="Vehicles" Type="Self.Vehicles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customers">
+              <PropertyRef Name="CustomerID" />
+            </Principal>
+            <Dependent Role="Vehicles">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InventoryD_SystemAdmin">
+          <End Role="SystemAdmin" Type="Self.SystemAdmin" Multiplicity="0..1" />
+          <End Role="InventoryD" Type="Self.InventoryD" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SystemAdmin">
+              <PropertyRef Name="AdminID" />
+            </Principal>
+            <Dependent Role="InventoryD">
+              <PropertyRef Name="AdminID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Transaction_Customers">
+          <End Role="Customers" Type="Self.Customers" Multiplicity="1" />
+          <End Role="Transaction" Type="Self.Transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customers">
+              <PropertyRef Name="CustomerID" />
+            </Principal>
+            <Dependent Role="Transaction">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Transaction_Service">
+          <End Role="Service" Type="Self.Service" Multiplicity="1" />
+          <End Role="Transaction" Type="Self.Transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Service">
+              <PropertyRef Name="ServiceID" />
+            </Principal>
+            <Dependent Role="Transaction">
+              <PropertyRef Name="ServiceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Transaction_Vehicles">
+          <End Role="Vehicles" Type="Self.Vehicles" Multiplicity="1" />
+          <End Role="Transaction" Type="Self.Transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vehicles">
+              <PropertyRef Name="VehicleID" />
+            </Principal>
+            <Dependent Role="Transaction">
+              <PropertyRef Name="VehicleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DealerShipDBModelStoreContainer">
+          <EntitySet Name="Customers" EntityType="Self.Customers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="InventoryD" EntityType="Self.InventoryD" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SalesDept" EntityType="Self.SalesDept" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Service" EntityType="Self.Service" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SystemAdmin" EntityType="Self.SystemAdmin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Transaction" EntityType="Self.Transaction" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Vehicles" EntityType="Self.Vehicles" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_CustomerID" Association="Self.FK_CustomerID">
+            <End Role="Customers" EntitySet="Customers" />
+            <End Role="Vehicles" EntitySet="Vehicles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InventoryD_SystemAdmin" Association="Self.FK_InventoryD_SystemAdmin">
+            <End Role="SystemAdmin" EntitySet="SystemAdmin" />
+            <End Role="InventoryD" EntitySet="InventoryD" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Transaction_Customers" Association="Self.FK_Transaction_Customers">
+            <End Role="Customers" EntitySet="Customers" />
+            <End Role="Transaction" EntitySet="Transaction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Transaction_Service" Association="Self.FK_Transaction_Service">
+            <End Role="Service" EntitySet="Service" />
+            <End Role="Transaction" EntitySet="Transaction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Transaction_Vehicles" Association="Self.FK_Transaction_Vehicles">
+            <End Role="Vehicles" EntitySet="Vehicles" />
+            <End Role="Transaction" EntitySet="Transaction" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DealerShipDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="CustomerID" />
+          </Key>
+          <Property Name="CustomerID" Type="Int32" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Gender" Type="String" MaxLength="2" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Phone" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Vehicles" Relationship="Self.FK_CustomerID" FromRole="Customers" ToRole="Vehicles" />
+          <NavigationProperty Name="Transactions" Relationship="Self.FK_Transaction_Customers" FromRole="Customers" ToRole="Transaction" />
+        </EntityType>
+        <EntityType Name="InventoryD">
+          <Key>
+            <PropertyRef Name="InventoryDID" />
+          </Key>
+          <Property Name="InventoryDID" Type="Int32" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="20" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="AdminID" Type="Int32" />
+          <NavigationProperty Name="SystemAdmin" Relationship="Self.FK_InventoryD_SystemAdmin" FromRole="InventoryD" ToRole="SystemAdmin" />
+        </EntityType>
+        <EntityType Name="SalesDept">
+          <Key>
+            <PropertyRef Name="SalesDID" />
+          </Key>
+          <Property Name="SalesDID" Type="Int32" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="20" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="CustomerID" Type="Int32" Nullable="false" />
+          <Property Name="Condition" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Service">
+          <Key>
+            <PropertyRef Name="ServiceID" />
+          </Key>
+          <Property Name="ServiceID" Type="Int32" Nullable="false" />
+          <Property Name="ServiceType" Type="String" MaxLength="50" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Price" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="VehicleID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Transactions" Relationship="Self.FK_Transaction_Service" FromRole="Service" ToRole="Transaction" />
+        </EntityType>
+        <EntityType Name="SystemAdmin">
+          <Key>
+            <PropertyRef Name="AdminID" />
+          </Key>
+          <Property Name="AdminID" Type="Int32" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Phone" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="InventoryDs" Relationship="Self.FK_InventoryD_SystemAdmin" FromRole="SystemAdmin" ToRole="InventoryD" />
+        </EntityType>
+        <EntityType Name="Transaction">
+          <Key>
+            <PropertyRef Name="TransactionID" />
+          </Key>
+          <Property Name="TransactionID" Type="Int32" Nullable="false" />
+          <Property Name="AccountNumber" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="BankName" Type="String" MaxLength="40" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="DateOfTransaction" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="CustomerID" Type="Int32" Nullable="false" />
+          <Property Name="VehicleID" Type="Int32" Nullable="false" />
+          <Property Name="ServiceID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Customer" Relationship="Self.FK_Transaction_Customers" FromRole="Transaction" ToRole="Customers" />
+          <NavigationProperty Name="Service" Relationship="Self.FK_Transaction_Service" FromRole="Transaction" ToRole="Service" />
+          <NavigationProperty Name="Vehicle" Relationship="Self.FK_Transaction_Vehicles" FromRole="Transaction" ToRole="Vehicles" />
+        </EntityType>
+        <EntityType Name="Vehicle">
+          <Key>
+            <PropertyRef Name="VehicleID" />
+          </Key>
+          <Property Name="VehicleID" Type="Int32" Nullable="false" />
+          <Property Name="Make" Type="String" MaxLength="20" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Model" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Year" Type="Int32" Nullable="false" />
+          <Property Name="Color" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Type" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Price" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CustomerID" Type="Int32" />
+          <Property Name="SalesDID" Type="Int32" />
+          <NavigationProperty Name="Customer" Relationship="Self.FK_CustomerID" FromRole="Vehicles" ToRole="Customers" />
+          <NavigationProperty Name="Transactions" Relationship="Self.FK_Transaction_Vehicles" FromRole="Vehicles" ToRole="Transaction" />
+        </EntityType>
+        <Association Name="FK_CustomerID">
+          <End Role="Customers" Type="Self.Customer" Multiplicity="0..1" />
+          <End Role="Vehicles" Type="Self.Vehicle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customers">
+              <PropertyRef Name="CustomerID" />
+            </Principal>
+            <Dependent Role="Vehicles">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Transaction_Customers">
+          <End Role="Customers" Type="Self.Customer" Multiplicity="1" />
+          <End Role="Transaction" Type="Self.Transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customers">
+              <PropertyRef Name="CustomerID" />
+            </Principal>
+            <Dependent Role="Transaction">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InventoryD_SystemAdmin">
+          <End Role="SystemAdmin" Type="Self.SystemAdmin" Multiplicity="0..1" />
+          <End Role="InventoryD" Type="Self.InventoryD" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SystemAdmin">
+              <PropertyRef Name="AdminID" />
+            </Principal>
+            <Dependent Role="InventoryD">
+              <PropertyRef Name="AdminID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Transaction_Service">
+          <End Role="Service" Type="Self.Service" Multiplicity="1" />
+          <End Role="Transaction" Type="Self.Transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Service">
+              <PropertyRef Name="ServiceID" />
+            </Principal>
+            <Dependent Role="Transaction">
+              <PropertyRef Name="ServiceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Transaction_Vehicles">
+          <End Role="Vehicles" Type="Self.Vehicle" Multiplicity="1" />
+          <End Role="Transaction" Type="Self.Transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vehicles">
+              <PropertyRef Name="VehicleID" />
+            </Principal>
+            <Dependent Role="Transaction">
+              <PropertyRef Name="VehicleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DealerShipDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Customers" EntityType="Self.Customer" />
+          <EntitySet Name="InventoryDs" EntityType="Self.InventoryD" />
+          <EntitySet Name="SalesDepts" EntityType="Self.SalesDept" />
+          <EntitySet Name="Services" EntityType="Self.Service" />
+          <EntitySet Name="SystemAdmins" EntityType="Self.SystemAdmin" />
+          <EntitySet Name="Transactions" EntityType="Self.Transaction" />
+          <EntitySet Name="Vehicles" EntityType="Self.Vehicle" />
+          <AssociationSet Name="FK_CustomerID" Association="Self.FK_CustomerID">
+            <End Role="Customers" EntitySet="Customers" />
+            <End Role="Vehicles" EntitySet="Vehicles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Transaction_Customers" Association="Self.FK_Transaction_Customers">
+            <End Role="Customers" EntitySet="Customers" />
+            <End Role="Transaction" EntitySet="Transactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InventoryD_SystemAdmin" Association="Self.FK_InventoryD_SystemAdmin">
+            <End Role="SystemAdmin" EntitySet="SystemAdmins" />
+            <End Role="InventoryD" EntitySet="InventoryDs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Transaction_Service" Association="Self.FK_Transaction_Service">
+            <End Role="Service" EntitySet="Services" />
+            <End Role="Transaction" EntitySet="Transactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Transaction_Vehicles" Association="Self.FK_Transaction_Vehicles">
+            <End Role="Vehicles" EntitySet="Vehicles" />
+            <End Role="Transaction" EntitySet="Transactions" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DealerShipDBModelStoreContainer" CdmEntityContainer="DealerShipDBEntities">
+          <EntitySetMapping Name="Customers">
+            <EntityTypeMapping TypeName="DealerShipDBModel.Customer">
+              <MappingFragment StoreEntitySet="Customers">
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InventoryDs">
+            <EntityTypeMapping TypeName="DealerShipDBModel.InventoryD">
+              <MappingFragment StoreEntitySet="InventoryD">
+                <ScalarProperty Name="InventoryDID" ColumnName="InventoryDID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="AdminID" ColumnName="AdminID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SalesDepts">
+            <EntityTypeMapping TypeName="DealerShipDBModel.SalesDept">
+              <MappingFragment StoreEntitySet="SalesDept">
+                <ScalarProperty Name="SalesDID" ColumnName="SalesDID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="Condition" ColumnName="Condition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Services">
+            <EntityTypeMapping TypeName="DealerShipDBModel.Service">
+              <MappingFragment StoreEntitySet="Service">
+                <ScalarProperty Name="ServiceID" ColumnName="ServiceID" />
+                <ScalarProperty Name="ServiceType" ColumnName="ServiceType" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="VehicleID" ColumnName="VehicleID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SystemAdmins">
+            <EntityTypeMapping TypeName="DealerShipDBModel.SystemAdmin">
+              <MappingFragment StoreEntitySet="SystemAdmin">
+                <ScalarProperty Name="AdminID" ColumnName="AdminID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Transactions">
+            <EntityTypeMapping TypeName="DealerShipDBModel.Transaction">
+              <MappingFragment StoreEntitySet="Transaction">
+                <ScalarProperty Name="TransactionID" ColumnName="TransactionID" />
+                <ScalarProperty Name="AccountNumber" ColumnName="AccountNumber" />
+                <ScalarProperty Name="BankName" ColumnName="BankName" />
+                <ScalarProperty Name="DateOfTransaction" ColumnName="DateOfTransaction" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="VehicleID" ColumnName="VehicleID" />
+                <ScalarProperty Name="ServiceID" ColumnName="ServiceID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vehicles">
+            <EntityTypeMapping TypeName="DealerShipDBModel.Vehicle">
+              <MappingFragment StoreEntitySet="Vehicles">
+                <ScalarProperty Name="VehicleID" ColumnName="VehicleID" />
+                <ScalarProperty Name="Make" ColumnName="Make" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Color" ColumnName="Color" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="SalesDID" ColumnName="SalesDID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

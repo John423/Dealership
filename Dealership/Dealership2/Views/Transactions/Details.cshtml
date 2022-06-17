@@ -1,0 +1,66 @@
+﻿@model Dealership2.Models.Transaction
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Transaction</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.AccountNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AccountNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BankName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BankName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateOfTransaction)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateOfTransaction)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Customer.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Customer.FirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Service.ServiceType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Service.ServiceType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Vehicle.Make)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Vehicle.Make)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.TransactionID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

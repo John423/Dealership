@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="c644a56c7b4a4763b9bd36ba66f49960" Name="Diagram1">
+        <EntityTypeShape EntityType="DealerShipDBModel.Customer" Width="1.5" PointX="0.75" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DealerShipDBModel.InventoryD" Width="1.5" PointX="8" PointY="6.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DealerShipDBModel.SalesDept" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DealerShipDBModel.Service" Width="1.5" PointX="3" PointY="5.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DealerShipDBModel.SystemAdmin" Width="1.5" PointX="5.75" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="DealerShipDBModel.Transaction" Width="1.5" PointX="5.25" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DealerShipDBModel.Vehicle" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <AssociationConnector Association="DealerShipDBModel.FK_CustomerID" ManuallyRouted="false" />
+        <AssociationConnector Association="DealerShipDBModel.FK_Transaction_Customers" ManuallyRouted="false" />
+        <AssociationConnector Association="DealerShipDBModel.FK_InventoryD_SystemAdmin" ManuallyRouted="false" />
+        <AssociationConnector Association="DealerShipDBModel.FK_Transaction_Service" ManuallyRouted="false" />
+        <AssociationConnector Association="DealerShipDBModel.FK_Transaction_Vehicles" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
